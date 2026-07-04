@@ -67,11 +67,9 @@
                     <div>
                         <p class="text-slate-400 text-sm">Statut</p>
 
-                        <span
+                        <span id="ticket-status"
                             class="inline-block mt-2 bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-bold">
-
                             {{ $reservation->statut }}
-
                         </span>
 
                     </div>
@@ -82,8 +80,11 @@
 
                     <div class="bg-blue-50 rounded-2xl p-6 text-center">
 
-                        <div class="text-5xl font-bold text-blue-700">
+                        <div id="waiting-count"
+                             class="text-5xl font-bold text-blue-700">
+
                             {{ $waitingBefore }}
+
                         </div>
 
                         <div class="text-slate-500 mt-2">
@@ -94,8 +95,11 @@
 
                     <div class="bg-green-50 rounded-2xl p-6 text-center">
 
-                        <div class="text-5xl font-bold text-green-700">
+                        <div id="estimated-time"
+                             class="text-5xl font-bold text-green-700">
+
                             {{ $estimatedTime }}
+
                         </div>
 
                         <div class="text-slate-500 mt-2">
@@ -112,7 +116,7 @@
 
                         <p class="text-slate-600">
 
-                            Cette page se mettra à jour automatiquement lorsque votre tour approche.
+                            Cette page se met à jour automatiquement.
 
                         </p>
 
@@ -127,5 +131,31 @@
     </div>
 
 </div>
+
+<script>
+
+const reservationId = {{ $reservation->id_reservation }};
+
+function refreshTicket(){
+
+    fetch('/reservation/ticket/' + reservationId + '/status')
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        document.getElementById('ticket-status').innerHTML = data.statut;
+
+        document.getElementById('waiting-count').innerHTML = data.waitingBefore;
+
+        document.getElementById('estimated-time').innerHTML = data.estimatedTime;
+
+    });
+
+}
+
+setInterval(refreshTicket,5000);
+
+</script>
 
 @endsection
