@@ -1,0 +1,28 @@
+========================================================================
+QUEUEFLOW - PROJECT UPDATE LOG & VERSION HISTORY
+========================================================================
+
+[v1.0.0] - Baseline Initial Setup
+------------------------------------------------------------------------
+* Installation de Laravel + Laravel Breeze pour l'authentification.
+* Structure initiale de la base de données (Tables: users, services, reservations).
+* Création du formulaire de scan client pour la prise de ticket automatique.
+
+[v1.1.0] - Bug Fixes & Interface Dynamique (Current Update - June 2026)
+------------------------------------------------------------------------
+* FRONT-END STABILIZATION:
+  - Intégration directe du CDN Tailwind CSS dans 'dashboard.blade.php' et 'scan_form.blade.php' pour corriger les problèmes d'affichage et éviter la dépendance stricte à 'npm run dev' en local.
+
+* DATABASE & BACKEND FIXES:
+  - Correction de l'erreur SQL 'Field date_reservation doesn't have a default value' lors de la création d'un ticket (PublicScanController). Injection automatique de 'now()->toDateString()' et 'now()->toTimeString()'.
+
+* AUTOMATION & EXPERIENCE RESPONSABLE:
+  - Modification du système d'inscription (Register). Ajout d'un champ Dropdown dynamique de sélection de service lié directement à la table 'services'.
+  - Mise à jour de 'RegisteredUserController' pour injecter automatiquement l'UUID du service choisi dans la table 'users' lors de l'inscription (id_role = 2 / Responsable).
+  - Liaison automatique réussie : Dès qu'un responsable s'inscrit, son tableau de bord affiche instantanément son service et sa file d'attente active filtrée.
+
+========================================================================
+PROCHAINES ÉTAPES (NEXT MILESTONES)
+========================================================================
+1. Implémentation de la redirection automatique après Login/Register selon le rôle (id_role 1: SuperAdmin / id_role 2: Responsable).
+2. Création de l'interface complète du SuperAdmin (id_role = 1) pour gérer les services et afficher les QR Codes dynamiques.
