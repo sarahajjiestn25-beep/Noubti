@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # QueueFlow — Web Application de Gestion des Réservations & Files d'Attente via QR Code
 
 > A generic, fully customizable queue and reservation management system for any service-oriented establishment.
@@ -219,3 +220,7 @@ Internship Project — Academic Year 2024/2025
 update 
 1-
 cretate file history update to the project called update_project.txt with version app
+=======
+# Noubti
+stage project
+>>>>>>> e56ffc31ab6c74c5a6f9108bff580d171eef92b3
