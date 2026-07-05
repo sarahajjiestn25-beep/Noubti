@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# QueueFlow — Web Application de Gestion des Réservations & Files d'Attente via QR Code
+# Noubtiy — Web Application de Gestion des Réservations & Files d'Attente via QR Code
 
 > A generic, fully customizable queue and reservation management system for any service-oriented establishment.
 
@@ -24,7 +24,7 @@
 
 ## Overview
 
-**QueueFlow** is a production-ready web application that enables establishments (medical clinics, government agencies, service centers, training centers, salons, etc.) to digitalize their client reception process.
+**Noubtiy** is a production-ready web application that enables establishments (medical clinics, government agencies, service centers, training centers, salons, etc.) to digitalize their client reception process.
 
 Clients scan a **QR Code** displayed at the service desk, fill in a short registration form, and instantly receive a **numbered ticket**. Staff can then manage the live queue from a dedicated admin dashboard — calling the next client, updating statuses, and monitoring activity in real time.
 
