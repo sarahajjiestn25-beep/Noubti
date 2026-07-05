@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Noubtiy — Web Application de Gestion des Réservations & Files d'Attente via QR Code
 
 > A generic, fully customizable queue and reservation management system for any service-oriented establishment.
