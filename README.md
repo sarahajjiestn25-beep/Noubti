@@ -208,7 +208,7 @@ The application follows an **MVC + REST API** pattern:
 
 ## Author
 
-**[Your Full Name]**
+**Sara HAJJI**
 Student — Software Engineering & Cybersecurity, Year 1
 École Supérieure de Technologie (EST), Morocco
 
@@ -216,11 +216,11 @@ Internship Project — Academic Year 2024/2025
 
 ---
 
-> *QueueFlow is designed to be reused, forked, and adapted. The codebase is intentionally generic so any establishment can deploy it with zero code changes — only configuration.*
+> *Noubtiy is designed to be reused, forked, and adapted. The codebase is intentionally generic so any establishment can deploy it with zero code changes — only configuration.*
 update 
 1-
 cretate file history update to the project called update_project.txt with version app
 =======
-# Noubti
+# Noubtiy
 stage project
 >>>>>>> e56ffc31ab6c74c5a6f9108bff580d171eef92b3
