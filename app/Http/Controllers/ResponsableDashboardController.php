@@ -38,16 +38,16 @@ class ResponsableDashboardController extends Controller
         $queue = Reservation::where('id_service', $user->id_service)
             ->orderBy('id_reservation')
             ->get();
-
+            
         return view('responsable.dashboard', compact(
             'service',
             'waitingCount',
             'processingCount',
             'finishedCount',
             'cancelledCount',
-            'currentTicket',
-            'queue'
-        ));
+            'queue',
+            'currentTicket'
+             ));
     }
 
     /**
