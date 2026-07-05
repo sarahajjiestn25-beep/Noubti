@@ -4,243 +4,276 @@
 
 <div class="min-h-screen bg-slate-100 p-8">
 
-    <div class="max-w-7xl mx-auto">
+<div class="max-w-7xl mx-auto">
 
-        <div class="flex justify-between items-center mb-8">
+@if(session('success'))
+<div class="mb-6 bg-green-100 border border-green-300 text-green-700 p-4 rounded-xl">
+{{ session('success') }}
+</div>
+@endif
 
-            <div>
-                <h1 class="text-4xl font-bold text-slate-800">
-                    Dashboard Responsable
-                </h1>
+@if(session('error'))
+<div class="mb-6 bg-red-100 border border-red-300 text-red-700 p-4 rounded-xl">
+{{ session('error') }}
+</div>
+@endif
 
-                <p class="text-slate-500 mt-2">
-                    {{ $service->nom_service }}
-                </p>
-            </div>
 
-            <div class="bg-white rounded-2xl shadow px-6 py-4">
+<div class="flex justify-between items-center mb-8">
 
-                <div class="text-sm text-slate-500">
-                    Aujourd'hui
-                </div>
+<div>
 
-                <div class="font-bold text-lg">
-                    {{ now()->format('d/m/Y') }}
-                </div>
+<h1 class="text-4xl font-bold text-slate-800">
+Dashboard Responsable
+</h1>
 
-            </div>
+<p class="text-slate-500">
+{{ $service->nom_service }}
+</p>
 
-        </div>
+</div>
 
+<div class="bg-white rounded-2xl shadow px-6 py-4">
 
-        <div class="grid grid-cols-4 gap-6 mb-8">
+<p class="text-slate-500">
+Aujourd'hui
+</p>
 
-            <div class="bg-white rounded-2xl shadow p-6">
+<h2 class="font-bold">
+{{ now()->format('d/m/Y') }}
+</h2>
 
-                <p class="text-slate-500">
-                    En attente
-                </p>
+</div>
 
-                <h2 class="text-4xl font-bold text-yellow-500 mt-3">
-                    {{ $waitingCount }}
-                </h2>
+</div>
 
-            </div>
 
-            <div class="bg-white rounded-2xl shadow p-6">
+<div class="grid md:grid-cols-4 gap-5 mb-8">
 
-                <p class="text-slate-500">
-                    En cours
-                </p>
+<div class="bg-white rounded-2xl shadow p-6">
 
-                <h2 class="text-4xl font-bold text-blue-600 mt-3">
-                    {{ $processingCount }}
-                </h2>
+<p class="text-slate-500">En attente</p>
 
-            </div>
+<h2 class="text-4xl font-bold text-yellow-500">
+{{ $waitingCount }}
+</h2>
 
-            <div class="bg-white rounded-2xl shadow p-6">
+</div>
 
-                <p class="text-slate-500">
-                    Terminés
-                </p>
+<div class="bg-white rounded-2xl shadow p-6">
 
-                <h2 class="text-4xl font-bold text-green-600 mt-3">
-                    {{ $finishedCount }}
-                </h2>
+<p class="text-slate-500">En cours</p>
 
-            </div>
+<h2 class="text-4xl font-bold text-blue-600">
+{{ $processingCount }}
+</h2>
 
-            <div class="bg-white rounded-2xl shadow p-6">
+</div>
 
-                <p class="text-slate-500">
-                    Annulés
-                </p>
+<div class="bg-white rounded-2xl shadow p-6">
 
-                <h2 class="text-4xl font-bold text-red-600 mt-3">
-                    {{ $cancelledCount }}
-                </h2>
+<p class="text-slate-500">Terminés</p>
 
-            </div>
+<h2 class="text-4xl font-bold text-green-600">
+{{ $finishedCount }}
+</h2>
 
-        </div>
+</div>
 
+<div class="bg-white rounded-2xl shadow p-6">
 
-        <div class="grid lg:grid-cols-3 gap-8">
+<p class="text-slate-500">Annulés</p>
 
-            <div class="lg:col-span-2 bg-white rounded-3xl shadow p-8">
+<h2 class="text-4xl font-bold text-red-600">
+{{ $cancelledCount }}
+</h2>
 
-                <h2 class="text-2xl font-bold mb-6">
-                    File d'attente
-                </h2>
+</div>
 
-                <table class="w-full">
+</div>
 
-                    <thead>
 
-                        <tr class="border-b">
+<div class="grid lg:grid-cols-3 gap-8">
 
-                            <th class="text-left py-3">Ticket</th>
-                            <th class="text-left">Client</th>
-                            <th class="text-left">Téléphone</th>
-                            <th class="text-left">Statut</th>
 
-                        </tr>
+<div class="lg:col-span-2">
 
-                    </thead>
 
-                    <tbody>
+<div class="bg-blue-700 rounded-3xl text-white p-8 mb-8">
 
-                        @forelse($queue as $ticket)
+<h3 class="text-xl">
+Ticket actuel
+</h3>
 
-                        <tr class="border-b hover:bg-slate-50">
+@if($currentTicket)
 
-                            <td class="py-4 font-bold">
-                                {{ str_pad((int)preg_replace('/[^0-9]/','',$ticket->numero),2,'0',STR_PAD_LEFT) }}
-                            </td>
+<div class="text-8xl font-black mt-5">
 
-                            <td>
-                                {{ $ticket->nom_client }}
-                            </td>
+{{ str_pad((int)preg_replace('/[^0-9]/','',$currentTicket->numero),2,'0',STR_PAD_LEFT) }}
 
-                            <td>
-                                {{ $ticket->telephone_client }}
-                            </td>
+</div>
 
-                            <td>
+<p class="mt-4 text-blue-100">
 
-                                @if($ticket->statut=="En attente")
+{{ $currentTicket->nom_client }}
 
-                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
+</p>
 
-                                        En attente
+@else
 
-                                    </span>
+<div class="text-4xl mt-6 font-bold">
 
-                                @elseif($ticket->statut=="En cours")
+--
 
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+</div>
 
-                                        En cours
+<p class="mt-4">
 
-                                    </span>
+Aucun ticket appelé.
 
-                                @elseif($ticket->statut=="Terminé")
+</p>
 
-                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+@endif
 
-                                        Terminé
+</div>
 
-                                    </span>
 
-                                @else
 
-                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full">
+<div class="bg-white rounded-3xl shadow">
 
-                                        Annulé
+<div class="p-6 border-b">
 
-                                    </span>
+<h2 class="text-2xl font-bold">
 
-                                @endif
+File d'attente
 
-                            </td>
+</h2>
 
-                        </tr>
+</div>
 
-                        @empty
+<table class="w-full">
 
-                        <tr>
+<thead class="bg-slate-50">
 
-                            <td colspan="4" class="py-10 text-center text-slate-500">
+<tr>
 
-                                Aucun ticket aujourd'hui.
+<th class="text-left p-4">Ticket</th>
+<th class="text-left">Nom</th>
+<th class="text-left">Téléphone</th>
+<th class="text-left">Statut</th>
 
-                            </td>
+</tr>
 
-                        </tr>
+</thead>
 
-                        @endforelse
+<tbody>
 
-                    </tbody>
+@forelse($queue as $ticket)
 
-                </table>
+<tr class="border-t hover:bg-slate-50">
 
-            </div>
+<td class="p-4 font-bold">
 
+{{ str_pad((int)preg_replace('/[^0-9]/','',$ticket->numero),2,'0',STR_PAD_LEFT) }}
 
-            <div>
+</td>
 
-                <div class="bg-white rounded-3xl shadow p-8">
+<td>
 
-                    <h2 class="text-2xl font-bold mb-6">
+{{ $ticket->nom_client }}
 
-                        Actions
+</td>
 
-                    </h2>
+<td>
 
-                    <form action="{{ route('responsable.ticket.suivant') }}" method="POST">
+{{ $ticket->telephone_client }}
 
-                        @csrf
+</td>
 
-                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl mb-4">
+<td>
 
-                            ▶ Appeler suivant
+{{ $ticket->statut }}
 
-                        </button>
+</td>
 
-                    </form>
+</tr>
 
-                    <form action="{{ route('responsable.ticket.terminer') }}" method="POST">
+@empty
 
-                        @csrf
+<tr>
 
-                        <button class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl mb-4">
+<td colspan="4" class="text-center py-10 text-slate-500">
 
-                            ✔ Terminer
+Aucun ticket
 
-                        </button>
+</td>
 
-                    </form>
+</tr>
 
-                    <form action="{{ route('responsable.ticket.annuler') }}" method="POST">
+@endforelse
 
-                        @csrf
+</tbody>
 
-                        <button class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl">
+</table>
 
-                            ✖ Annuler
+</div>
 
-                        </button>
+</div>
 
-                    </form>
 
-                </div>
+<div>
 
-            </div>
+<div class="bg-white rounded-3xl shadow p-8">
 
-        </div>
+<h2 class="text-2xl font-bold mb-6">
 
-    </div>
+Actions
+
+</h2>
+
+<form action="{{ route('responsable.ticket.suivant') }}" method="POST">
+
+@csrf
+
+<button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-4 mb-4">
+
+▶ Appeler le prochain
+
+</button>
+
+</form>
+
+<form action="{{ route('responsable.ticket.terminer') }}" method="POST">
+
+@csrf
+
+<button class="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl py-4 mb-4">
+
+✔ Terminer
+
+</button>
+
+</form>
+
+<form action="{{ route('responsable.ticket.annuler') }}" method="POST">
+
+@csrf
+
+<button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-4">
+
+✖ Annuler
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
