@@ -73,4 +73,37 @@ class PublicReservationController extends Controller
             )
         );
     }
+public function status(Reservation $reservation)
+{
+    $reservation->refresh();
+
+    $waitingBefore = Reservation::where('id_service', $reservation->id_service)
+        ->where('statut', 'En attente')
+        ->where('id_reservation', '<', $reservation->id_reservation)
+        ->count();
+
+    $estimatedTime = 0;
+
+    if ($reservation->statut == 'En attente') {
+        $estimatedTime = $waitingBefore * 5;
+    }
+
+    return response()->json([
+
+        'numero' => $reservation->numero,
+
+        'statut' => $reservation->statut,
+
+        'waitingBefore' => $waitingBefore,
+
+        'estimatedTime' => $estimatedTime,
+
+        'isCurrent' => $reservation->statut == 'En cours',
+
+        'isFinished' => $reservation->statut == 'Terminé',
+
+        'isCancelled' => $reservation->statut == 'Annulé',
+
+    ]);
+}
 }

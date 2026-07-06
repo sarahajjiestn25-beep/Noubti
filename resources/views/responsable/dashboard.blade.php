@@ -53,8 +53,7 @@ Aujourd'hui
 <div class="bg-white rounded-2xl shadow p-6">
 
 <p class="text-slate-500">En attente</p>
-
-<h2 class="text-4xl font-bold text-yellow-500">
+<h2 id="waitingCount" class="text-4xl font-bold text-yellow-500">
 {{ $waitingCount }}
 </h2>
 
@@ -64,7 +63,7 @@ Aujourd'hui
 
 <p class="text-slate-500">En cours</p>
 
-<h2 class="text-4xl font-bold text-blue-600">
+<h2 id="processingCount" class="text-4xl font-bold text-blue-600">
 {{ $processingCount }}
 </h2>
 
@@ -74,7 +73,7 @@ Aujourd'hui
 
 <p class="text-slate-500">Terminés</p>
 
-<h2 class="text-4xl font-bold text-green-600">
+<h2 id="finishedCount" class="text-4xl font-bold text-green-600">
 {{ $finishedCount }}
 </h2>
 
@@ -84,7 +83,7 @@ Aujourd'hui
 
 <p class="text-slate-500">Annulés</p>
 
-<h2 class="text-4xl font-bold text-red-600">
+<h2 id="cancelledCount" class="text-4xl font-bold text-red-600">
 {{ $cancelledCount }}
 </h2>
 
@@ -107,13 +106,12 @@ Ticket actuel
 
 @if($currentTicket)
 
-<div class="text-8xl font-black mt-5">
+<div id="current-ticket" class="text-8xl font-black mt-5">
 
 {{ str_pad((int)preg_replace('/[^0-9]/','',$currentTicket->numero),2,'0',STR_PAD_LEFT) }}
 
 </div>
-
-<p class="mt-4 text-blue-100">
+<p id="current-name" class="mt-4 text-blue-100">
 
 {{ $currentTicket->nom_client }}
 
@@ -166,7 +164,7 @@ File d'attente
 
 </thead>
 
-<tbody>
+<tbody id="queue-body">
 
 @forelse($queue as $ticket)
 
@@ -276,5 +274,121 @@ Actions
 </div>
 
 </div>
+<script>
 
+function badgeClass(status){
+
+    switch(status){
+
+        case "En attente":
+            return "bg-yellow-100 text-yellow-700";
+
+        case "En cours":
+            return "bg-blue-100 text-blue-700";
+
+        case "Terminé":
+            return "bg-green-100 text-green-700";
+
+        case "Annulé":
+            return "bg-red-100 text-red-700";
+
+        default:
+            return "bg-slate-100 text-slate-700";
+    }
+
+}
+
+function formatNumero(numero){
+
+    numero = String(numero).replace(/\D/g,'');
+
+    return numero.padStart(2,'0');
+
+}
+
+function refreshDashboard(){
+
+    fetch("{{ route('responsable.realtime') }}")
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        document.getElementById("waitingCount").textContent = data.waitingCount;
+        document.getElementById("processingCount").textContent = data.processingCount;
+        document.getElementById("finishedCount").textContent = data.finishedCount;
+        document.getElementById("cancelledCount").textContent = data.cancelledCount;
+
+        const current = document.getElementById("current-ticket");
+        const currentName = document.getElementById("current-name");
+
+        if(data.currentTicket){
+
+            current.textContent = formatNumero(data.currentTicket.numero);
+            currentName.textContent = data.currentTicket.nom_client ?? "-";
+
+        }else{
+
+            current.textContent = "--";
+            currentName.textContent = "Aucun ticket appelé";
+
+        }
+
+        let html = "";
+
+        if(data.queue.length === 0){
+
+            html = `
+                <tr>
+                    <td colspan="4" class="py-10 text-center text-slate-400">
+                        Aucun ticket
+                    </td>
+                </tr>
+            `;
+
+        }else{
+
+            data.queue.forEach(ticket => {
+
+                html += `
+                <tr class="border-t hover:bg-slate-50 transition">
+
+                    <td class="p-4 font-bold text-blue-700">
+                        ${formatNumero(ticket.numero)}
+                    </td>
+
+                    <td>
+                        ${ticket.nom_client ?? "-"}
+                    </td>
+
+                    <td>
+                        ${ticket.telephone_client ?? "-"}
+                    </td>
+
+                    <td>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass(ticket.statut)}">
+                            ${ticket.statut}
+                        </span>
+                    </td>
+
+                </tr>
+                `;
+
+            });
+
+        }
+
+        document.getElementById("queue-body").innerHTML = html;
+
+    })
+
+    .catch(error => console.log(error));
+
+}
+
+refreshDashboard();
+
+setInterval(refreshDashboard,3000);
+
+</script>
 @endsection
