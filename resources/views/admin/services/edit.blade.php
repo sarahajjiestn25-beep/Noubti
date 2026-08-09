@@ -1,138 +1,125 @@
-@extends('layouts.app')
+<x-layouts.admin title="Modifier le service">
 
-@section('title','Modifier le service')
+    <div class="mb-8">
 
-@section('content')
+        <h1 class="text-3xl font-bold text-gray-900">
+            Modifier le service
+        </h1>
 
-<div class="max-w-3xl mx-auto py-10">
-
-    <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
-
-        <div class="bg-gradient-to-r from-blue-700 to-blue-500 px-8 py-6">
-
-            <h1 class="text-3xl font-bold text-white">
-                Modifier le service
-            </h1>
-
-            <p class="text-blue-100 mt-2">
-                Modifiez les informations du service.
-            </p>
-
-        </div>
-
-        <div class="p-8">
-
-            @if ($errors->any())
-
-                <div class="mb-6 rounded-xl bg-red-50 border border-red-200 p-4">
-
-                    <ul class="list-disc pl-5 text-red-600">
-
-                        @foreach($errors->all() as $error)
-
-                            <li>{{ $error }}</li>
-
-                        @endforeach
-
-                    </ul>
-
-                </div>
-
-            @endif
-
-            <form method="POST"
-                  action="{{ route('admin.services.update',$service) }}">
-
-                @csrf
-                @method('PUT')
-
-                <div class="space-y-6">
-
-                    <div>
-
-                        <label class="block mb-2 font-semibold">
-                            Nom du service
-                        </label>
-
-                        <input
-                            type="text"
-                            name="nom_service"
-                            value="{{ old('nom_service',$service->nom_service) }}"
-                            class="w-full rounded-xl border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-
-                    </div>
-
-                    <div>
-
-                        <label class="block mb-2 font-semibold">
-                            Description
-                        </label>
-
-                        <textarea
-                            name="description"
-                            rows="4"
-                            class="w-full rounded-xl border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{ old('description',$service->description) }}</textarea>
-
-                    </div>
-
-                    <div>
-
-                        <label class="block mb-2 font-semibold">
-                            Adresse
-                        </label>
-
-                        <input
-                            type="text"
-                            name="adresse"
-                            value="{{ old('adresse',$service->adresse) }}"
-                            class="w-full rounded-xl border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-
-                    </div>
-
-                    <div class="flex items-center">
-
-                        <input
-                            id="actif"
-                            type="checkbox"
-                            name="actif"
-                            value="1"
-                            {{ old('actif',$service->actif) ? 'checked' : '' }}
-                            class="rounded border-gray-300 text-blue-600">
-
-                        <label for="actif" class="ml-3 font-semibold">
-
-                            Service actif
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-                <div class="mt-10 flex justify-between">
-
-                    <a href="{{ route('admin.services.index') }}"
-                       class="px-6 py-3 rounded-xl bg-slate-200 hover:bg-slate-300">
-
-                        Retour
-
-                    </a>
-
-                    <button
-                        class="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold">
-
-                        Enregistrer
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
+        <p class="text-gray-500 mt-1">
+            Modifiez les informations du service.
+        </p>
 
     </div>
 
-</div>
 
-@endsection
+    <div class="max-w-3xl bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+
+        <form
+            method="POST"
+            action="{{ route('admin.services.update', $service->id_service) }}"
+        >
+
+            @csrf
+            @method('PUT')
+
+
+            <div class="mb-6">
+
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Nom du service
+                </label>
+
+                <input
+                    type="text"
+                    name="nom_service"
+                    value="{{ old('nom_service', $service->nom_service) }}"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500"
+                    required
+                >
+
+                @error('nom_service')
+                    <p class="text-red-500 text-sm mt-2">
+                        {{ $message }}
+                    </p>
+                @enderror
+
+            </div>
+
+
+            <div class="mb-6">
+
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Description
+                </label>
+
+                <textarea
+                    name="description"
+                    rows="4"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500"
+                >{{ old('description', $service->description) }}</textarea>
+
+            </div>
+
+
+            <div class="mb-6">
+
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Adresse
+                </label>
+
+                <input
+                    type="text"
+                    name="adresse"
+                    value="{{ old('adresse', $service->adresse) }}"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500"
+                >
+
+            </div>
+
+
+            <div class="mb-8">
+
+                <label class="flex items-center gap-3 cursor-pointer">
+
+                    <input
+                        type="checkbox"
+                        name="actif"
+                        value="1"
+                        {{ $service->actif ? 'checked' : '' }}
+                        class="w-5 h-5 text-indigo-600 rounded"
+                    >
+
+                    <span class="text-sm font-semibold text-gray-700">
+                        Service actif
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <div class="flex items-center gap-3">
+
+                <a
+                    href="{{ route('admin.services.index') }}"
+                    class="px-5 py-3 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50"
+                >
+                    Annuler
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+                >
+                    Enregistrer les modifications
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</x-layouts.admin>

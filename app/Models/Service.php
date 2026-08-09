@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     protected $primaryKey = 'id_service';
+
     public $incrementing = true;
+
     protected $keyType = 'int';
 
     protected $fillable = [
         'nom_service',
         'description',
-        'qr_code',
-        'actif',
-        'logo',
         'adresse',
+        'actif',
+        'qr_code',
+        'logo',
     ];
 
     protected $casts = [
@@ -24,18 +26,26 @@ class Service extends Model
     ];
 
     /**
-     * Un service peut avoir plusieurs responsables (users avec id_service = ce service).
+     * Les utilisateurs/responsables liés à ce service
      */
     public function users()
     {
-        return $this->hasMany(User::class, 'id_service', 'id_service');
+        return $this->hasMany(
+            User::class,
+            'id_service',
+            'id_service'
+        );
     }
 
     /**
-     * Un service peut avoir plusieurs reservations.
+     * Les réservations liées à ce service
      */
     public function reservations()
     {
-        return $this->hasMany(Reservation::class, 'id_service', 'id_service');
+        return $this->hasMany(
+            Reservation::class,
+            'id_service',
+            'id_service'
+        );
     }
 }

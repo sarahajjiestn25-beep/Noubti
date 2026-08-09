@@ -1,151 +1,146 @@
-@extends('layouts.app')
+<x-layouts.admin title="Ajouter un service">
 
-@section('title','Nouveau Service')
+    <div class="mb-8">
 
-@section('content')
+        <h1 class="text-3xl font-bold text-gray-900">
+            Ajouter un service
+        </h1>
 
-<div class="min-h-screen bg-slate-100 py-10">
+        <p class="text-gray-500 mt-1">
+            Créez un nouveau service dans Noubti.
+        </p>
 
-<div class="max-w-3xl mx-auto">
+    </div>
 
-<div class="bg-white rounded-3xl shadow-xl overflow-hidden">
 
-<div class="bg-gradient-to-r from-blue-700 to-blue-500 px-8 py-8 text-white">
+    <div class="max-w-3xl bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
 
-<h1 class="text-4xl font-black">
+        <form method="POST" action="{{ route('admin.services.store') }}">
 
-Créer un nouveau service
+            @csrf
 
-</h1>
 
-<p class="mt-2 text-blue-100">
+            {{-- NOM --}}
 
-Ajoutez un nouveau service disponible pour les réservations.
+            <div class="mb-6">
 
-</p>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Nom du service
+                </label>
 
-</div>
+                <input
+                    type="text"
+                    name="nom_service"
+                    value="{{ old('nom_service') }}"
+                    placeholder="Ex: Administration"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                >
 
-<div class="p-8">
+                @error('nom_service')
+                    <p class="text-red-500 text-sm mt-2">
+                        {{ $message }}
+                    </p>
+                @enderror
 
-@if($errors->any())
+            </div>
 
-<div class="mb-8 rounded-2xl bg-red-50 border border-red-200 p-5">
 
-<ul class="list-disc pl-6 text-red-600">
+            {{-- DESCRIPTION --}}
 
-@foreach($errors->all() as $error)
+            <div class="mb-6">
 
-<li>{{ $error }}</li>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Description
+                </label>
 
-@endforeach
+                <textarea
+                    name="description"
+                    rows="4"
+                    placeholder="Description du service..."
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                >{{ old('description') }}</textarea>
 
-</ul>
+                @error('description')
+                    <p class="text-red-500 text-sm mt-2">
+                        {{ $message }}
+                    </p>
+                @enderror
 
-</div>
+            </div>
 
-@endif
 
-<form action="{{ route('admin.services.store') }}" method="POST">
+            {{-- ADRESSE --}}
 
-@csrf
+            <div class="mb-6">
 
-<div class="space-y-7">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Adresse
+                </label>
 
-<div>
+                <input
+                    type="text"
+                    name="adresse"
+                    value="{{ old('adresse') }}"
+                    placeholder="Ex: Nador, Maroc"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                >
 
-<label class="block font-semibold text-slate-700 mb-2">
+                @error('adresse')
+                    <p class="text-red-500 text-sm mt-2">
+                        {{ $message }}
+                    </p>
+                @enderror
 
-Nom du service
+            </div>
 
-</label>
 
-<input
-type="text"
-name="nom_service"
-value="{{ old('nom_service') }}"
-required
-class="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500">
+            {{-- ACTIF --}}
 
-</div>
+            <div class="mb-8">
 
-<div>
+                <label class="flex items-center gap-3 cursor-pointer">
 
-<label class="block font-semibold text-slate-700 mb-2">
+                    <input
+                        type="checkbox"
+                        name="actif"
+                        value="1"
+                        checked
+                        class="w-5 h-5 text-indigo-600 rounded"
+                    >
 
-Description
+                    <span class="text-sm font-semibold text-gray-700">
+                        Service actif
+                    </span>
 
-</label>
+                </label>
 
-<textarea
-name="description"
-rows="4"
-class="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500">{{ old('description') }}</textarea>
+            </div>
 
-</div>
 
-<div>
+            {{-- BUTTONS --}}
 
-<label class="block font-semibold text-slate-700 mb-2">
+            <div class="flex items-center gap-3">
 
-Adresse
+                <a
+                    href="{{ route('admin.services.index') }}"
+                    class="px-5 py-3 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50"
+                >
+                    Annuler
+                </a>
 
-</label>
 
-<input
-type="text"
-name="adresse"
-value="{{ old('adresse') }}"
-class="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500">
+                <button
+                    type="submit"
+                    class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+                >
+                    Créer le service
+                </button>
 
-</div>
+            </div>
 
-<div class="flex items-center gap-3">
+        </form>
 
-<input
-type="checkbox"
-name="actif"
-value="1"
-checked
-class="rounded border-slate-300 text-blue-600">
+    </div>
 
-<label class="font-semibold">
-
-Service actif
-
-</label>
-
-</div>
-
-<div class="flex justify-between pt-6">
-
-<a
-href="{{ route('admin.services.index') }}"
-class="px-6 py-3 rounded-xl bg-slate-200 hover:bg-slate-300 font-semibold transition">
-
-Retour
-
-</a>
-
-<button
-class="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition">
-
-Créer le service
-
-</button>
-
-</div>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-@endsection
+</x-layouts.admin>

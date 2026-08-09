@@ -10,113 +10,61 @@ use Illuminate\Http\Request;
 class PublicServiceController extends Controller
 {
     /**
-     * Afficher formulaire réservation
+     * Afficher un service pour le public.
      */
     public function show(Service $service)
     {
         if (!$service->actif) {
-            abort(404, 'Service non disponible');
+            abort(404);
         }
 
-        $activeTicketId = session()->get('active_ticket_service_' . $service->id_service);
-
-        if ($activeTicketId) {
-            $ticket = Reservation::find($activeTicketId);
-
-            if ($ticket && in_array($ticket->statut, ['En attente', 'En cours'])) {
-                return redirect()->route('public.ticket.show', $ticket->id_reservation);
-            }
-        }
-
-        return view('public.scan_form', compact('service'));
+        return view('public.service', compact('service'));
     }
 
     /**
-     * Créer ticket
+     * Créer une réservation pour un service.
      */
     public function store(Request $request, Service $service)
     {
         if (!$service->actif) {
-            abort(404, 'Service non disponible');
+            abort(404);
         }
 
-        $request->validate([
-            'telephone' => 'required|string|max:30'
+        $validated = $request->validate([
+            'nom' => 'required|string|max:100',
+            'telephone' => 'required|string|max:30',
         ]);
-
-        // Nombre tickets aujourd'hui
-        $todayCount = Reservation::where('id_service', $service->id_service)
-            ->whereDate('date_reservation', today())
-            ->count();
-
-        $ticketNumber = $todayCount + 1;
 
         $reservation = Reservation::create([
-            'numero' => $ticketNumber,
-            'date_reservation' => now()->toDateString(),
-            'heure_reservation' => now()->format('H:i:s'),
-            'statut' => 'En attente',
-            'temps_restant' => 0,
             'id_service' => $service->id_service,
-
-            // مهم: خليها 1 مؤقتا إذا DB ماكاتقبلش NULL
-            'id_user' => 1
+            'nom' => $validated['nom'],
+            'telephone' => $validated['telephone'],
         ]);
 
-        session()->put(
-            'active_ticket_service_' . $service->id_service,
-            $reservation->id_reservation
-        );
-
-        return redirect()->route(
-            'public.ticket.show',
-            $reservation->id_reservation
-        );
+        return redirect()
+            ->route('public.ticket.show', $reservation)
+            ->with('success', 'Votre réservation a été créée avec succès.');
     }
 
     /**
-     * Afficher ticket
+     * Afficher le ticket.
      */
     public function ticket(Reservation $reservation)
     {
-        $service = $reservation->service;
+        $reservation->load('service');
 
-        $waitingBefore = Reservation::where('id_service', $reservation->id_service)
-            ->where('statut', 'En attente')
-            ->where('id_reservation', '<', $reservation->id_reservation)
-            ->whereDate('date_reservation', $reservation->date_reservation)
-            ->count();
-
-        $estimatedTime = $waitingBefore * 5;
-
-        return view('public.ticket_view', compact(
-            'reservation',
-            'service',
-            'waitingBefore',
-            'estimatedTime'
-        ));
+        return view('public.ticket', compact('reservation'));
     }
 
     /**
-     * AJAX status
+     * Vérifier le statut du ticket.
      */
     public function checkStatus(Reservation $reservation)
     {
-        $waitingBefore = Reservation::where('id_service', $reservation->id_service)
-            ->where('statut', 'En attente')
-            ->where('id_reservation', '<', $reservation->id_reservation)
-            ->whereDate('date_reservation', $reservation->date_reservation)
-            ->count();
-
-        $estimatedTime = $waitingBefore * 5;
-
         return response()->json([
-            'id' => $reservation->id_reservation,
+            'id_reservation' => $reservation->id_reservation,
             'statut' => $reservation->statut,
-            'numero' => $reservation->numero,
-            'waitingBefore' => $waitingBefore,
-            'estimatedTime' => $estimatedTime,
+            'numero_ticket' => $reservation->numero_ticket,
         ]);
     }
-    
 }

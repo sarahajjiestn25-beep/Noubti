@@ -8,15 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
-    /**
-     * Verifie que l'utilisateur connecte possede l'un des roles autorises.
-     *
-     * Usage dans les routes :
-     * Route::middleware('role:superadmin')->group(...)
-     * Route::middleware('role:superadmin,admin')->group(...)
-     */
-    public function handle(Request $request, Closure $next, ...$roles): Response
-    {
+    public function handle(
+        Request $request,
+        Closure $next,
+        ...$roles
+    ): Response {
+
         $user = $request->user();
 
         if (!$user) {

@@ -54,11 +54,11 @@ class Reservation extends Model
             substr($this->service->nom_service ?? 'T', 0, 1)
         );
 
-         return $prefix . str_pad(
-         $this->numero,
-         2,
-        '0',
-        STR_PAD_LEFT
-);
+        return $prefix . str_pad(
+            $this->numero,
+            3,
+            '0',
+            STR_PAD_LEFT
+        );
     }
 }

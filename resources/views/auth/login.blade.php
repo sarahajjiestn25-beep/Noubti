@@ -1,93 +1,151 @@
 <x-guest-layout>
 
-    <div class="mb-8">
+    <div class="login-card">
 
-        <h2 class="text-3xl font-bold text-slate-800">
+        {{-- Logo + Brand --}}
+        <div class="brand">
+
+            <img
+                src="{{ asset('images/logo.png') }}"
+                alt="Noubti Logo"
+                class="brand-logo"
+            >
+
+            <div class="brand-name">
+                Noubti
+            </div>
+
+            <div class="brand-app">
+                QUEUEFLOW
+            </div>
+
+        </div>
+
+
+        {{-- Title --}}
+        <h1 class="page-title">
             Connexion
-        </h2>
+        </h1>
 
-        <p class="text-slate-500 mt-2">
-            Accédez à votre espace d’administration
+        <p class="page-subtitle">
+            Connectez-vous à votre compte QueueFlow
         </p>
 
-    </div>
 
-    @if (session('status'))
-        <div class="mb-4 text-green-600 text-sm">
-            {{ session('status') }}
-        </div>
-    @endif
+        {{-- Session Status --}}
+        @if (session('status'))
+            <div class="general-error" style="color:#166534;background:#f0fdf4;border-color:#bbf7d0;">
+                {{ session('status') }}
+            </div>
+        @endif
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
 
-        <!-- EMAIL -->
-        <div class="mb-5">
-            <label class="block mb-2 text-sm font-medium text-slate-700">
-                Adresse Email
+        {{-- Login Errors --}}
+        @if ($errors->any())
+            <div class="general-error">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
+
+        {{-- Login Form --}}
+        <form method="POST" action="{{ route('login') }}">
+
+            @csrf
+
+
+            {{-- Email --}}
+            <div class="form-group">
+
+                <label
+                    for="email"
+                    class="form-label"
+                >
+                    Email
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    class="form-input"
+                    required
+                    autofocus
+                    autocomplete="username"
+                    placeholder="admin@queueflow.com"
+                >
+
+                @error('email')
+                    <div class="error-message">
+                        {{ $message }}
+                    </div>
+                @enderror
+
+            </div>
+
+
+            {{-- Password --}}
+            <div class="form-group">
+
+                <label
+                    for="password"
+                    class="form-label"
+                >
+                    Mot de passe
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    class="form-input"
+                    required
+                    autocomplete="current-password"
+                    placeholder="••••••••••"
+                >
+
+                @error('password')
+                    <div class="error-message">
+                        {{ $message }}
+                    </div>
+                @enderror
+
+            </div>
+
+
+            {{-- Remember Me --}}
+            <label class="remember">
+
+                <input
+                    type="checkbox"
+                    name="remember"
+                    id="remember"
+                >
+
+                <span>
+                    Se souvenir de moi
+                </span>
+
             </label>
 
-            <input
-                type="email"
-                name="email"
-                value="{{ old('email') }}"
-                required
-                autofocus
-                class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-slate-500 focus:outline-none"
+
+            {{-- Submit --}}
+            <button
+                type="submit"
+                class="login-button"
             >
+                Se connecter
+            </button>
 
-            @error('email')
-                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-            @enderror
+        </form>
+
+
+        {{-- Footer --}}
+        <div class="footer">
+            © {{ date('Y') }} Noubti - QueueFlow
         </div>
 
-        <!-- PASSWORD -->
-        <div class="mb-5">
-            <label class="block mb-2 text-sm font-medium text-slate-700">
-                Mot de passe
-            </label>
-
-            <input
-                type="password"
-                name="password"
-                required
-                class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-slate-500 focus:outline-none"
-            >
-
-            @error('password')
-                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <!-- REMEMBER -->
-        <div class="flex justify-between items-center mb-6">
-
-            <label class="flex items-center gap-2 text-sm text-slate-600">
-                <input type="checkbox" name="remember">
-                Se souvenir
-            </label>
-
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}"
-                   class="text-sm text-slate-500 hover:text-slate-800">
-                    Mot de passe oublié ?
-                </a>
-            @endif
-
-        </div>
-
-        <!-- BUTTON -->
-        <button
-            type="submit"
-            class="w-full bg-slate-900 hover:bg-black text-white py-3 rounded-xl font-semibold transition duration-200"
-        >
-            Se connecter
-        </button>
-
-    </form>
-
-    <div class="mt-8 text-center text-sm text-slate-400">
-        QueueFlow © 2026
     </div>
 
 </x-guest-layout>

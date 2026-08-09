@@ -1,93 +1,68 @@
-@extends('layouts.app')
+<x-layouts.admin title="Services">
 
-@section('title','Gestion des services')
+    <div class="flex items-center justify-between mb-8">
 
-@section('content')
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">
+                Services
+            </h1>
 
-<div class="min-h-screen bg-slate-100 p-8">
+            <p class="text-gray-500 mt-1">
+                Gérez les services disponibles dans Noubti.
+            </p>
+        </div>
 
-    <div class="max-w-7xl mx-auto">
+        <a href="{{ route('admin.services.create') }}"
+           class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transition">
+            + Ajouter un service
+        </a>
 
-        @if(session('success'))
+    </div>
 
-        <div class="mb-6 bg-green-100 border border-green-300 text-green-700 rounded-2xl px-6 py-4 shadow">
 
+    @if(session('success'))
+        <div class="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-700">
             {{ session('success') }}
+        </div>
+    @endif
 
+
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-900">
+                Liste des services
+            </h2>
         </div>
 
-        @endif
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
-
-            <div>
-
-                <h1 class="text-4xl font-black text-slate-800">
-
-                    Gestion des services
-
-                </h1>
-
-                <p class="text-slate-500 mt-2">
-
-                    Gérez les services disponibles dans votre établissement.
-
-                </p>
-
-            </div>
-
-            <a href="{{ route('admin.services.create') }}"
-               class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-2xl font-bold shadow-lg transition">
-
-                + Nouveau service
-
-            </a>
-
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
-
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-6 border-b">
-
-                <h2 class="text-2xl font-bold text-slate-800">
-
-                    Liste des services
-
-                </h2>
-
-                <input
-                    id="search"
-                    type="text"
-                    placeholder="Rechercher un service..."
-                    class="border border-slate-300 rounded-xl px-5 py-3 w-full md:w-80 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-
-            </div>
+        @if($services->count())
 
             <div class="overflow-x-auto">
 
                 <table class="w-full">
 
-                    <thead class="bg-slate-50">
+                    <thead class="bg-gray-50">
 
                         <tr>
 
-                            <th class="text-left px-6 py-4 font-bold">
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
                                 Service
                             </th>
 
-                            <th class="text-left px-6 py-4 font-bold">
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
                                 Description
                             </th>
 
-                            <th class="text-center px-6 py-4 font-bold">
-                                QR Code
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                Adresse
                             </th>
 
-                            <th class="text-center px-6 py-4 font-bold">
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
                                 Statut
                             </th>
 
-                            <th class="text-center px-6 py-4 font-bold">
+                            <th class="px-6 py-4 text-right text-sm font-semibold text-gray-600">
                                 Actions
                             </th>
 
@@ -95,164 +70,102 @@
 
                     </thead>
 
-                    <tbody id="servicesTable">
 
-                        @forelse($services as $service)
+                    <tbody class="divide-y divide-gray-100">
 
-                        <tr class="border-t hover:bg-slate-50 transition service-row">
+                        @foreach($services as $service)
 
-                            <td class="px-6 py-5">
+                            <tr class="hover:bg-gray-50">
 
-                                <div class="flex items-center gap-4">
+                                <td class="px-6 py-5">
 
-                                    <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
+                                    <div class="flex items-center gap-3">
 
-                                        @if($service->logo)
+                                        <div class="w-11 h-11 rounded-xl bg-indigo-100 flex items-center justify-center">
 
-                                            <img src="{{ asset('storage/'.$service->logo) }}"
-                                                 class="w-full h-full object-cover">
-
-                                        @else
-
-                                            <span class="text-blue-700 text-xl">
-
-                                                🏢
-
+                                            <span class="font-bold text-indigo-600">
+                                                {{ strtoupper(substr($service->nom_service, 0, 1)) }}
                                             </span>
 
-                                        @endif
-
-                                    </div>
-
-                                    <div>
-
-                                        <div class="font-bold text-slate-800 text-lg service-name">
-
-                                            {{ $service->nom_service }}
-
                                         </div>
 
-                                        <div class="text-slate-400 text-sm">
+                                        <div>
 
-                                            #{{ $service->id_service }}
+                                            <p class="font-semibold text-gray-900">
+                                                {{ $service->nom_service }}
+                                            </p>
+
+                                            <p class="text-xs text-gray-500">
+                                                #{{ $service->id_service }}
+                                            </p>
 
                                         </div>
 
                                     </div>
 
-                                </div>
+                                </td>
 
-                            </td>
 
-                            <td class="px-6 py-5">
+                                <td class="px-6 py-5 text-sm text-gray-600">
+                                    {{ $service->description ?: 'Aucune description' }}
+                                </td>
 
-                                {{ $service->description ?: '-' }}
 
-                            </td>
+                                <td class="px-6 py-5 text-sm text-gray-600">
+                                    {{ $service->adresse ?: 'Non renseignée' }}
+                                </td>
 
-                            <td class="px-6 py-5 text-center">
 
-                                @if($service->qr_code)
+                                <td class="px-6 py-5">
 
-                                    <img
-                                        src="{{ asset('storage/'.$service->qr_code) }}"
-                                        class="w-20 h-20 mx-auto border rounded-lg bg-white p-1">
+                                    @if($service->actif)
 
-                                @else
+                                        <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+                                            Actif
+                                        </span>
 
-                                    <span class="text-slate-400">
+                                    @else
 
-                                        Aucun
+                                        <span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
+                                            Inactif
+                                        </span>
 
-                                    </span>
+                                    @endif
 
-                                @endif
+                                </td>
 
-                            </td>
-                                                        <td class="px-6 py-5 text-center">
 
-                                @if($service->actif)
+                                <td class="px-6 py-5">
 
-                                    <span class="inline-flex px-4 py-2 rounded-full bg-green-100 text-green-700 font-bold text-sm">
+                                    <div class="flex justify-end items-center gap-2">
 
-                                        ● Actif
+                                        <a href="{{ route('admin.services.edit', $service->id_service) }}"
+                                           class="px-3 py-2 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 text-sm font-semibold">
+                                            Modifier
+                                        </a>
 
-                                    </span>
 
-                                @else
+                                        <form action="{{ route('admin.services.destroy', $service->id_service) }}"
+                                              method="POST"
+                                              onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?');">
 
-                                    <span class="inline-flex px-4 py-2 rounded-full bg-red-100 text-red-700 font-bold text-sm">
+                                            @csrf
+                                            @method('DELETE')
 
-                                        ● Inactif
+                                            <button type="submit"
+                                                    class="px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 text-sm font-semibold">
+                                                Supprimer
+                                            </button>
 
-                                    </span>
+                                        </form>
 
-                                @endif
+                                    </div>
 
-                            </td>
+                                </td>
 
-                            <td class="px-6 py-5">
+                            </tr>
 
-                                <div class="flex justify-center gap-3">
-
-                                    <a href="{{ route('admin.services.edit',$service) }}"
-                                       class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
-
-                                        Modifier
-
-                                    </a>
-
-                                    <form action="{{ route('admin.services.destroy',$service) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Supprimer ce service ?')">
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition">
-
-                                            Supprimer
-
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                        @empty
-
-                        <tr>
-
-                            <td colspan="5" class="py-16 text-center">
-
-                                <div class="text-6xl mb-4">
-
-                                    📂
-
-                                </div>
-
-                                <h3 class="text-xl font-bold text-slate-700">
-
-                                    Aucun service
-
-                                </h3>
-
-                                <p class="text-slate-500 mt-2">
-
-                                    Commencez par créer votre premier service.
-
-                                </p>
-
-                            </td>
-
-                        </tr>
-
-                        @endforelse
+                        @endforeach
 
                     </tbody>
 
@@ -260,41 +173,36 @@
 
             </div>
 
-            @if($services instanceof \Illuminate\Contracts\Pagination\Paginator ||
-                $services instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator)
 
-            <div class="p-6 border-t bg-slate-50">
-
+            <div class="p-6 border-t border-gray-200">
                 {{ $services->links() }}
+            </div>
+
+        @else
+
+            <div class="p-12 text-center">
+
+                <div class="text-5xl mb-4">
+                    📋
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-900">
+                    Aucun service
+                </h3>
+
+                <p class="text-gray-500 mt-2">
+                    Commencez par ajouter votre premier service.
+                </p>
+
+                <a href="{{ route('admin.services.create') }}"
+                   class="inline-block mt-5 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-semibold">
+                    + Ajouter un service
+                </a>
 
             </div>
 
-            @endif
-
-        </div>
+        @endif
 
     </div>
 
-</div>
-
-<script>
-
-const search=document.getElementById("search");
-
-search.addEventListener("keyup",function(){
-
-let value=this.value.toLowerCase();
-
-document.querySelectorAll(".service-row").forEach(row=>{
-
-let name=row.querySelector(".service-name").innerText.toLowerCase();
-
-row.style.display=name.includes(value) ? "" : "none";
-
-});
-
-});
-
-</script>
-
-@endsection
+</x-layouts.admin>

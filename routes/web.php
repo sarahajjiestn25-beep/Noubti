@@ -4,10 +4,14 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\ResponsableDashboardController;
 use App\Http\Controllers\Public\PublicReservationController;
 use App\Http\Controllers\Public\PublicServiceController;
-
+use App\Http\Controllers\SuperAdminDashboardController;
+use App\Http\Controllers\SuperAdmin\UserController;
+use App\Http\Controllers\SuperAdmin\StatisticsController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 /*
 |--------------------------------------------------------------------------
 | PUBLIC
@@ -100,16 +104,21 @@ Route::middleware('auth')->group(function () {
     | SuperAdmin
     |--------------------------------------------------------------------------
     */
+   Route::prefix('superadmin')
+    ->middleware('role:superadmin')
+    ->name('superadmin.')
+    ->group(function () {
 
-    Route::prefix('superadmin')
-        ->middleware('role:superadmin')
-        ->name('superadmin.')
-        ->group(function () {
+        Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])
+            ->name('dashboard');
+        Route::resource('users', UserController::class);
+        Route::get('/statistics', [StatisticsController::class, 'index'])
+            ->name('statistics');
+        Route::get('/export-excel',
+                 [SuperAdminDashboardController::class,'exportExcel'])
+           ->name('export.excel');    
 
-            Route::get('/dashboard', fn() => view('superadmin.dashboard'))
-                ->name('dashboard');
-
-        });
+    });
 
 
     /*
@@ -122,8 +131,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:admin,superadmin')
         ->name('admin.')
         ->group(function () {
+             Route::get('/reservations', [ReservationController::class, 'index'])
+                 ->name('reservations.index');
 
-            Route::get('/dashboard', fn() => view('admin.dashboard'))
+            Route::get('/dashboard', [AdminDashboardController::class, 'index'])
                 ->name('dashboard');
 
             Route::resource('services', ServiceController::class);
