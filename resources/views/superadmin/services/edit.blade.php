@@ -41,7 +41,7 @@
             @endif
 
             <form method="POST"
-                  action="{{ route('admin.services.update',$service) }}">
+                  action="{{ route('superadmin.services.update',$service) }}">
 
                 @csrf
                 @method('PUT')
@@ -111,7 +111,7 @@
 
                 <div class="mt-10 flex justify-between">
 
-                    <a href="{{ route('admin.services.index') }}"
+                    <a href="{{ route('superadmin.services.index') }}"
                        class="px-6 py-3 rounded-xl bg-slate-200 hover:bg-slate-300">
 
                         Retour

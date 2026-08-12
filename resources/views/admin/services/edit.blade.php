@@ -102,7 +102,7 @@
             <div class="flex items-center gap-3">
 
                 <a
-                    href="{{ route('admin.services.index') }}"
+                    href="{{route('superadmin.services.index') }}"
                     class="px-5 py-3 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50"
                 >
                     Annuler

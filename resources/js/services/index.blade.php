@@ -55,7 +55,7 @@ Créer, modifier et organiser les services disponibles.
 </div>
 
 <a
-href="{{ route('admin.services.create') }}"
+href="{{ route('superadmin.services.create')}}"
 class="bg-white text-blue-700 font-bold px-8 py-4 rounded-2xl shadow-lg hover:scale-105 transition">
 
 + Nouveau Service
@@ -242,7 +242,7 @@ class="w-20 h-20 rounded-xl border bg-white mx-auto p-1 shadow">
 <div class="flex justify-center gap-3">
 
 <a
-href="{{ route('admin.services.edit',$service) }}"
+href="{{ route('superadmin.services.edit',$service) }}"
 class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition shadow">
 
 Modifier
@@ -250,7 +250,7 @@ Modifier
 </a>
 
 <form
-action="{{ route('admin.services.destroy',$service) }}"
+action="{{ route('superadmin.services.destroy',$service)}}"
 method="POST"
 onsubmit="return confirm('Supprimer ce service ?')">
 
@@ -297,7 +297,7 @@ Commencez par créer votre premier service.
 </p>
 
 <a
-href="{{ route('admin.services.create') }}"
+href="{{ route('superadmin.services.create') }}"
 class="inline-flex mt-8 bg-blue-600 hover:bg-blue-700 text-white px-7 py-3 rounded-2xl font-bold transition">
 
 Créer un service

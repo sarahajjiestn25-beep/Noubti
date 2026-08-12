@@ -12,6 +12,7 @@ use App\Http\Controllers\SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\UserController;
 use App\Http\Controllers\SuperAdmin\StatisticsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\SuperAdmin\ServiceController as SuperAdminServiceController;
 /*
 |--------------------------------------------------------------------------
 | PUBLIC
@@ -104,21 +105,33 @@ Route::middleware('auth')->group(function () {
     | SuperAdmin
     |--------------------------------------------------------------------------
     */
-   Route::prefix('superadmin')
+     Route::prefix('superadmin')
     ->middleware('role:superadmin')
     ->name('superadmin.')
     ->group(function () {
 
         Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])
             ->name('dashboard');
+
         Route::resource('users', UserController::class);
+
+        Route::resource('services', SuperAdminServiceController::class);
+
+        Route::get('/services/{service}/download-qr',
+            [SuperAdminServiceController::class, 'downloadQr']
+        )->name('services.downloadQr');
+
         Route::get('/statistics', [StatisticsController::class, 'index'])
             ->name('statistics');
-        Route::get('/export-excel',
-                 [SuperAdminDashboardController::class,'exportExcel'])
-           ->name('export.excel');    
 
+        Route::get('/export-excel',
+            [SuperAdminDashboardController::class, 'exportExcel'])
+            ->name('export.excel');
     });
+
+  
+
+ 
 
 
     /*
@@ -127,10 +140,10 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::prefix('admin')
-        ->middleware('role:admin,superadmin')
-        ->name('admin.')
-        ->group(function () {
+           Route::prefix('admin')
+                ->middleware('role:admin')
+                ->name('admin.')
+                ->group(function ()  {
              Route::get('/reservations', [ReservationController::class, 'index'])
                  ->name('reservations.index');
 

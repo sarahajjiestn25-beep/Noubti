@@ -44,7 +44,7 @@ Mettre à jour les informations du service.
 </div>
 
 <a
-href="{{ route('admin.services.index') }}"
+href="{{ route('superadmin.services.index') }}"
 class="bg-white text-blue-700 font-bold px-7 py-3 rounded-2xl shadow hover:scale-105 transition">
 
 ← Retour
@@ -83,7 +83,7 @@ Veuillez corriger les erreurs :
 
 <form
 method="POST"
-action="{{ route('admin.services.update',$service) }}">
+action="{{ route('superadmin.services.update',$service) }}">
 
 @csrf
 @method('PUT')
@@ -163,7 +163,7 @@ Service actif
 <div class="border-t mt-10 pt-8 flex justify-end gap-4">
 
 <a
-href="{{ route('admin.services.index') }}"
+href="{{ route('superadmin.services.index') }}"
 class="px-7 py-3 rounded-2xl bg-slate-200 hover:bg-slate-300 font-semibold transition">
 
 Annuler

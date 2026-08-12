@@ -1,63 +1,68 @@
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<title>
+    {{ $title ?? 'Tableau de bord' }} - Noubti
+</title>
 
-    <title>
-        {{ $title ?? 'Tableau de bord' }} - Noubti
-    </title>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-
-<body class="bg-gray-50 text-gray-900">
 
 @php
-    $user = auth()->user();
 
-    $role = $user?->role?->nom_role ?? 'admin';
+$user = auth()->user();
 
-    if ($role === 'superadmin') {
-        $roleLabel = 'Super Administrateur';
-        $initial = 'S';
-    } elseif ($role === 'admin') {
-        $roleLabel = 'Administrateur';
-        $initial = 'A';
-    } elseif ($role === 'responsable') {
-        $roleLabel = 'Responsable';
-        $initial = 'R';
-    } else {
-        $roleLabel = 'Client';
-        $initial = 'C';
-    }
+$role = $user?->role?->nom_role ?? 'admin';
+
+if ($role === 'superadmin') {
+
+    $roleLabel = 'Super Administrateur';
+    $initial = 'S';
+
+} elseif ($role === 'admin') {
+
+    $roleLabel = 'Administrateur';
+    $initial = 'A';
+
+} elseif ($role === 'responsable') {
+
+    $roleLabel = 'Responsable';
+    $initial = 'R';
+
+} else {
+
+    $roleLabel = 'Client';
+    $initial = 'C';
+
+}
+
 @endphp
 
 
-<div class="min-h-screen flex">
+{{-- =========================================================
+     PAGE WRAPPER
+========================================================== --}}
+
+<div class="min-h-screen bg-gray-50 flex">
 
 
-    {{-- =========================================================
+    {{-- =====================================================
          SIDEBAR
-    ========================================================== --}}
+    ====================================================== --}}
 
     <aside class="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col">
 
 
-        {{-- LOGO --}}
+        {{-- =================================================
+             LOGO
+        ================================================== --}}
 
         <div class="px-6 py-5 border-b border-gray-200">
 
             <div class="flex items-center gap-3">
-
-
-                {{-- Logo image si elle existe --}}
 
                 @if(file_exists(public_path('images/logo.png')))
 
@@ -68,8 +73,6 @@
                     >
 
                 @else
-
-                    {{-- Logo temporaire --}}
 
                     <div class="w-11 h-11 rounded-xl bg-indigo-600 flex items-center justify-center shadow-sm">
 
@@ -98,29 +101,51 @@
 
         </div>
 
-              {{-- MENU --}}
-
-<nav class="p-4 space-y-2">
 
 
-{{-- TABLEAU DE BORD --}}
-<a
-    href="{{ route('admin.dashboard') }}"
+        {{-- =================================================
+             MENU
+        ================================================== --}}
+
+        <nav class="flex-1 px-3 py-5 space-y-2">
+
+
+            {{-- =================================================
+                 TABLEAU DE BORD
+            ================================================== --}}
+
+            <a
+                href="{{ route('admin.dashboard') }}"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl
+                {{ request()->routeIs('admin.dashboard')
+                    ? 'bg-indigo-50 text-indigo-600 font-semibold'
+                    : 'text-gray-600 hover:bg-gray-50 transition' }}"
+            >
+
+                <span class="text-lg">
+                    📊
+                </span>
+
+                <span>
+                    Tableau de bord
+                </span>
+
+            </a>
+
+
+
+            {{-- =================================================
+                 SERVICES
+            ================================================== --}}
+
+                
+         
+                         <a
+   href="{{ auth()->user()->role->nom_role === 'superadmin'
+    ? route('superadmin.services.index')
+    : route('admin.services.index') }}"
     class="flex items-center gap-3 px-4 py-3 rounded-xl
-    {{ request()->routeIs('admin.dashboard')
-        ? 'bg-indigo-50 text-indigo-600 font-semibold'
-        : 'text-gray-600 hover:bg-gray-50 transition' }}"
->
-    <span class="text-lg">📊</span>
-    <span>Tableau de bord</span>
-</a>
-
-
-{{-- SERVICES --}}
-<a
-    href="{{ route('admin.services.index') }}"
-    class="flex items-center gap-3 px-4 py-3 rounded-xl
-    {{ request()->routeIs('admin.services.*')
+    {{ request()->routeIs('admin.services.*') || request()->routeIs('superadmin.services.*')
         ? 'bg-indigo-50 text-indigo-600 font-semibold'
         : 'text-gray-600 hover:bg-gray-50 transition' }}"
 >
@@ -128,54 +153,28 @@
     <span>Services</span>
 </a>
 
-{{-- RESERVATIONS --}}
-<a
-    href="{{ route('admin.reservations.index') }}"
-    class="flex items-center gap-3 px-4 py-3 rounded-xl
-    {{ request()->routeIs('admin.reservations.*')
-        ? 'bg-indigo-50 text-indigo-600 font-semibold'
-        : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition' }}"
->
-    <span class="text-lg">📅</span>
 
-    <span>
-        Réservations
-    </span>
-</a>
+            {{-- =================================================
+                 RESERVATIONS
+            ================================================== --}}
 
+            <a
+                href="{{ route('admin.reservations.index') }}"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl
+                {{ request()->routeIs('admin.reservations.*')
+                    ? 'bg-indigo-50 text-indigo-600 font-semibold'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition' }}"
+            >
 
-{{-- SUPERADMIN ONLY --}}
-@if($role === 'superadmin')
+                <span class="text-lg">
+                    📅
+                </span>
 
-    {{-- UTILISATEURS --}}
-    <a
-        href="#"
-        class="flex items-center gap-3 px-4 py-3 rounded-xl
-        text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition"
-    >
-        <span class="text-lg">👥</span>
-        <span>Utilisateurs</span>
-    </a>
+                <span>
+                    Réservations
+                </span>
 
-
-    {{-- CONFIGURATION --}}
-    <a
-        href="#"
-        class="flex items-center gap-3 px-4 py-3 rounded-xl
-        text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition"
-    >
-        <span class="text-lg">⚙️</span>
-        <span>Configuration</span>
-    </a>
-
-@endif
-
-</nav>
-
-
-
-
-       
+            </a>
 
 
 
@@ -186,12 +185,16 @@
             @if($role === 'superadmin')
 
 
-                {{-- UTILISATEURS --}}
+                {{-- =================================================
+                     UTILISATEURS
+                ================================================== --}}
 
                 <a
-                    href="#"
+                    href="{{ route('superadmin.users.index') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl
-                           text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition"
+                    {{ request()->routeIs('superadmin.users.*')
+                        ? 'bg-indigo-50 text-indigo-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition' }}"
                 >
 
                     <span class="text-lg">
@@ -206,12 +209,45 @@
 
 
 
-                {{-- CONFIGURATION --}}
+                {{-- =================================================
+                     STATISTIQUES
+                ================================================== --}}
+
+                <a
+                    href="{{ route('superadmin.statistics') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl
+                    {{ request()->routeIs('superadmin.statistics')
+                        ? 'bg-indigo-50 text-indigo-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition' }}"
+                >
+
+                    <span class="text-lg">
+                        📈
+                    </span>
+
+                    <span>
+                        Statistiques
+                    </span>
+
+                </a>
+
+
+
+                {{-- =================================================
+                     CONFIGURATION
+                ================================================== --}}
+
+                {{-- 
+                    Pour le moment aucune route configuration
+                    n'existe dans routes/web.php.
+                    Donc on ne met pas de route() ici pour éviter
+                    une erreur Laravel.
+                --}}
 
                 <a
                     href="#"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl
-                           text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition"
+                    text-gray-400 cursor-not-allowed"
                 >
 
                     <span class="text-lg">
@@ -273,7 +309,9 @@
 
 
 
-            {{-- Logout --}}
+            {{-- =================================================
+                 LOGOUT
+            ================================================== --}}
 
             <form
                 method="POST"
@@ -289,7 +327,9 @@
                            text-sm text-red-600
                            hover:bg-red-50 transition"
                 >
+
                     Déconnexion
+
                 </button>
 
             </form>
@@ -391,6 +431,3 @@
 
 </div>
 
-
-</body>
-</html>

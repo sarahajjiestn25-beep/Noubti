@@ -16,41 +16,42 @@ class PublicReservationController extends Controller
         return view('public.reservation.form', compact('services'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nom_client' => 'required|max:100',
-            'telephone_client' => 'required|max:20',
-            'id_service' => 'required|exists:services,id_service',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'nom_client' => 'required|max:100',
+        'telephone_client' => 'required|max:20',
+        'id_service' => 'required|exists:services,id_service',
+    ]);
 
-        $count = Reservation::where('id_service', $request->id_service)
-            ->whereDate('date_reservation', today())
-            ->count();
+    // Récupérer le service
+    $service = \App\Models\Service::findOrFail($request->id_service);
 
-        $reservation = Reservation::create([
+    // Compter les réservations de ce service aujourd'hui
+    $count = Reservation::where('id_service', $request->id_service)
+        ->whereDate('date_reservation', today())
+        ->count();
 
-            'numero' => str_pad($count + 1,2,'0',STR_PAD_LEFT),
+    // Première lettre du nom du service
+    $prefix = strtoupper(substr(trim($service->nom_service), 0, 1));
 
-            'date_reservation' => today(),
+    // Générer S01, H01, M01...
+    $numero = $prefix . str_pad($count + 1, 2, '0', STR_PAD_LEFT);
 
-            'heure_reservation' => now()->format('H:i:s'),
+    $reservation = Reservation::create([
+        'numero' => $numero,
+        'date_reservation' => today(),
+        'heure_reservation' => now()->format('H:i:s'),
+        'statut' => 'En attente',
+        'temps_restant' => 0,
+        'nom_client' => $request->nom_client,
+        'telephone_client' => $request->telephone_client,
+        'id_service' => $request->id_service,
+        'id_user' => null,
+    ]);
 
-            'statut' => 'En attente',
-
-            'temps_restant' => 0,
-
-            'nom_client' => $request->nom_client,
-
-            'telephone_client' => $request->telephone_client,
-
-            'id_service' => $request->id_service,
-
-            'id_user' => null,
-        ]);
-
-        return redirect()->route('public.ticket',$reservation);
-    }
+    return redirect()->route('public.ticket', $reservation);
+}
 
     public function ticket(Reservation $reservation)
     {

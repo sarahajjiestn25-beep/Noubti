@@ -43,7 +43,7 @@ Créer un nouveau service de réservation.
 </div>
 
 <a
-href="{{ route('admin.services.index') }}"
+href="{{ route('superadmin.services.index') }}"
 class="bg-white text-blue-700 px-7 py-3 rounded-2xl font-bold shadow hover:scale-105 transition">
 
 ← Retour
@@ -81,7 +81,7 @@ Veuillez corriger les erreurs :
 <div class="bg-white rounded-3xl shadow-xl p-10">
 
 <form
-action="{{ route('admin.services.store') }}"
+action="{{ route('superadmin.services.store')}}"
 method="POST">
 
 @csrf

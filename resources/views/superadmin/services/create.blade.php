@@ -46,7 +46,7 @@ Ajoutez un nouveau service disponible pour les réservations.
 
 @endif
 
-<form action="{{ route('admin.services.store') }}" method="POST">
+<form action="{{ route('superadmin.services.store') }}" method="POST">
 
 @csrf
 
@@ -120,7 +120,7 @@ Service actif
 <div class="flex justify-between pt-6">
 
 <a
-href="{{ route('admin.services.index') }}"
+href="{{ route('superadmin.services.index') }}"
 class="px-6 py-3 rounded-xl bg-slate-200 hover:bg-slate-300 font-semibold transition">
 
 Retour

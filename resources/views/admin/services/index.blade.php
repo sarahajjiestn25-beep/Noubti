@@ -12,7 +12,7 @@
             </p>
         </div>
 
-        <a href="{{ route('admin.services.create') }}"
+        <a href="{{ route('superadmin.services.create')}}"
            class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transition">
             + Ajouter un service
         </a>
@@ -194,7 +194,7 @@
                     Commencez par ajouter votre premier service.
                 </p>
 
-                <a href="{{ route('admin.services.create') }}"
+                <a href="{{route('superadmin.services.create')}}"
                    class="inline-block mt-5 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-semibold">
                     + Ajouter un service
                 </a>
