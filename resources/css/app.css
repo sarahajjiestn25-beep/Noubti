@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --app-primary: #1A73E8;
+    --app-secondary: #34A853;
+}
+
+.text-app-primary {
+    color: var(--app-primary);
+}
+
+.bg-app-primary {
+    background-color: var(--app-primary);
+}
+
+.border-app-primary {
+    border-color: var(--app-primary);
+}
+
+.text-app-secondary {
+    color: var(--app-secondary);
+}
+
+.bg-app-secondary {
+    background-color: var(--app-secondary);
+}
+
+.border-app-secondary {
+    border-color: var(--app-secondary);
+}

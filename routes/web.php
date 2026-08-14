@@ -13,6 +13,7 @@ use App\Http\Controllers\SuperAdmin\UserController;
 use App\Http\Controllers\SuperAdmin\StatisticsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\SuperAdmin\ServiceController as SuperAdminServiceController;
+use App\Http\Controllers\SuperAdmin\ConfigurationController;
 /*
 |--------------------------------------------------------------------------
 | PUBLIC
@@ -110,6 +111,12 @@ Route::middleware('auth')->group(function () {
     ->name('superadmin.')
     ->group(function () {
 
+
+        Route::get('/configuration', [ConfigurationController::class, 'index'])
+            ->name('configuration.index');
+
+        Route::put('/configuration', [ConfigurationController::class, 'update'])
+            ->name('configuration.update');
         Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])
             ->name('dashboard');
 

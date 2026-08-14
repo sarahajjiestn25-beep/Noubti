@@ -34,7 +34,7 @@
 
                 <p class="text-slate-500 mt-2">
 
-                    Gestion des comptes de la plateforme Noubti
+                    Gestion des comptes de la plateforme Noubtio {{ $appConfig->nom_app }}
 
                 </p>
 

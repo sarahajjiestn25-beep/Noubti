@@ -1,0 +1,1 @@
+{{ $appConfig?->nom_app ?? 'Noubti' }}
