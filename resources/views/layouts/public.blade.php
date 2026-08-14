@@ -13,13 +13,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --primary-color: {{ $appConfig?->couleur_primaire ?? '#2563eb' }};
+            --secondary-color: {{ $appConfig?->couleur_secondaire ?? '#1d4ed8' }};
+        }
+
         body{
             font-family:'Poppins',sans-serif;
             background:#eef4ff;
         }
 
         .hero{
-            background:linear-gradient(135deg,#2563eb,#1d4ed8,#1e40af);
+            background:linear-gradient(135deg,var(--secondary-color),var(--primary-color),#1e40af);
         }
 
         .glass{
@@ -49,13 +54,13 @@
         }
 
         .input:focus{
-            border-color:#2563eb;
+            border-color:var(--secondary-color);
             box-shadow:0 0 0 4px rgba(37,99,235,.15);
         }
 
         .btn-primary{
             width:100%;
-            background:#2563eb;
+            background:var(--secondary-color);
             color:white;
             padding:16px;
             border-radius:14px;
@@ -64,7 +69,7 @@
         }
 
         .btn-primary:hover{
-            background:#1d4ed8;
+            background:var(--primary-color);
         }
 
         .feature-icon{

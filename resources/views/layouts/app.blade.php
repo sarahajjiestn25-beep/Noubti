@@ -13,6 +13,8 @@
 
     <style>
         :root {
+            --primary-color: {{ $appConfig?->couleur_primaire ?? '#1A73E8' }};
+            --secondary-color: {{ $appConfig?->couleur_secondaire ?? '#34A853' }};
             --app-primary: {{ $appConfig?->couleur_primaire ?? '#1A73E8' }};
             --app-secondary: {{ $appConfig?->couleur_secondaire ?? '#34A853' }};
         }

@@ -10,6 +10,13 @@
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+<style>
+    :root {
+        --primary-color: {{ $appConfig?->couleur_primaire ?? '#4f46e5' }};
+        --secondary-color: {{ $appConfig?->couleur_secondaire ?? '#2563eb' }};
+    }
+</style>
+
 
 @php
 

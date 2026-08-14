@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+    --primary-color: #1A73E8;
+    --secondary-color: #34A853;
     --app-primary: #1A73E8;
     --app-secondary: #34A853;
 }
