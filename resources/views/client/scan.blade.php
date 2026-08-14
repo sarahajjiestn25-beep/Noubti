@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noubti - Ticket de File</title>
+    <title>{{ $appConfig?->nom_app ?? 'Noubti' }} - Ticket de File</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased flex items-center justify-center min-h-screen p-4">
 
     <div class="w-full max-w-md bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 space-y-6 text-center">
         <div class="flex flex-col items-center space-y-2">
-            <span class="text-2xl font-bold tracking-tight text-indigo-600">Noubti</span>
+            <span class="text-2xl font-bold tracking-tight text-indigo-600">{{ $appConfig?->nom_app ?? 'Noubti' }}</span>
             <p class="text-sm text-slate-500">Service: <span class="font-semibold text-slate-800">{{ $service->nom_service }}</span></p>
         </div>
 
@@ -81,7 +81,7 @@
         @endif
 
         <div class="text-[10px] text-slate-400">
-            &copy; 2026 Noubti. Tous droits réservés.
+            &copy; {{ date('Y') }} {{ $appConfig?->nom_app ?? 'Noubti' }}. Tous droits réservés.
         </div>
     </div>
 

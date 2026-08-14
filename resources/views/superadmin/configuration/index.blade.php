@@ -42,7 +42,7 @@
                 </h1>
 
                 <p class="text-slate-500 mt-2">
-                    Gérez les paramètres généraux de votre plateforme Noubti.
+                    Gérez les paramètres généraux de votre plateforme {{ $configuration->nom_app }}.
                 </p>
             </div>
 
@@ -68,7 +68,7 @@
                         </h2>
 
                         <p class="text-sm text-slate-500 mt-1">
-                            Modifiez les informations générales de Noubti.
+                            Modifiez les informations générales de {{ $configuration->nom_app }}.
                         </p>
                     </div>
 
@@ -203,7 +203,7 @@
 
                                 <img
                                     src="{{ asset('images/logo.png') }}"
-                                    alt="Logo Noubti"
+                                    alt="Logo {{ $configuration->nom_app }}"
                                     class="w-20 h-20 object-contain">
 
                             @endif

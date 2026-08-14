@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? 'Connexion - QueueFlow' }}</title>
+    <title>{{ $title ?? 'Connexion - ' . ($appConfig?->nom_app ?? 'QueueFlow') }}</title>
 
     <style>
+        :root {
+            --app-primary: {{ $appConfig?->couleur_primaire ?? '#5146e5' }};
+            --app-secondary: {{ $appConfig?->couleur_secondaire ?? '#4338ca' }};
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -58,7 +63,7 @@
 
         .brand-app {
             font-size: 14px;
-            color: #5146e5;
+            color: var(--app-primary);
             font-weight: 500;
             letter-spacing: 0.3px;
         }
@@ -104,7 +109,7 @@
         }
 
         .form-input:focus {
-            border-color: #5146e5;
+            border-color: var(--app-primary);
             box-shadow: 0 0 0 3px rgba(81, 70, 229, 0.12);
         }
 
@@ -120,7 +125,7 @@
         .remember input {
             width: 17px;
             height: 17px;
-            accent-color: #5146e5;
+            accent-color: var(--app-primary);
             cursor: pointer;
         }
 
@@ -129,7 +134,7 @@
             height: 46px;
             border: none;
             border-radius: 7px;
-            background: #5146e5;
+            background: var(--app-primary);
             color: #ffffff;
             font-size: 14px;
             font-weight: 700;
@@ -138,7 +143,7 @@
         }
 
         .login-button:hover {
-            background: #4338ca;
+            background: var(--app-secondary);
         }
 
         .login-button:active {

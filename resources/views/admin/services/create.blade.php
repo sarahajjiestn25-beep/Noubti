@@ -7,7 +7,7 @@
         </h1>
 
         <p class="text-gray-500 mt-1">
-            Créez un nouveau service dans Noubti.
+            Créez un nouveau service dans {{ $appConfig?->nom_app ?? 'Noubti' }}.
         </p>
 
     </div>

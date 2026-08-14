@@ -6,13 +6,13 @@
         <div class="brand">
 
             <img
-                src="{{ asset('images/logo.png') }}"
-                alt="Noubti Logo"
+                src="{{ $appConfig?->logo ? asset('storage/' . $appConfig->logo) : asset('images/logo.png') }}"
+                alt="{{ $appConfig?->nom_app ?? 'Noubti' }} Logo"
                 class="brand-logo"
             >
 
             <div class="brand-name">
-                Noubti
+                {{ $appConfig?->nom_app ?? 'Noubti' }}
             </div>
 
             <div class="brand-app">
@@ -28,7 +28,7 @@
         </h1>
 
         <p class="page-subtitle">
-            Connectez-vous à votre compte QueueFlow
+            Connectez-vous à votre compte {{ $appConfig?->nom_app ?? 'QueueFlow' }}
         </p>
 
 
@@ -143,7 +143,7 @@
 
         {{-- Footer --}}
         <div class="footer">
-            © {{ date('Y') }} Noubti - QueueFlow
+            © {{ date('Y') }} {{ $appConfig?->nom_app ?? 'Noubti' }} - QueueFlow
         </div>
 
     </div>

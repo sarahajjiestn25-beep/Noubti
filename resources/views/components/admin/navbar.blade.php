@@ -11,7 +11,7 @@
 
     <span class="px-4 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs">
 
-        Noubti QueueFlow
+        {{ $appConfig?->nom_app ?? 'Noubti' }} QueueFlow
 
     </span>
 

@@ -5,7 +5,7 @@
 >
 
 <title>
-    {{ $title ?? 'Tableau de bord' }} - Noubti
+    {{ $title ?? 'Tableau de bord' }} - {{ $appConfig?->nom_app ?? 'Noubti' }}
 </title>
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -64,11 +64,19 @@ if ($role === 'superadmin') {
 
             <div class="flex items-center gap-3">
 
-                @if(file_exists(public_path('images/logo.png')))
+                @if($appConfig?->logo)
+
+                    <img
+                        src="{{ asset('storage/' . $appConfig->logo) }}"
+                        alt="{{ $appConfig?->nom_app ?? 'Noubti' }}"
+                        class="w-12 h-12 object-contain"
+                    >
+
+                @elseif(file_exists(public_path('images/logo.png')))
 
                     <img
                         src="{{ asset('images/logo.png') }}"
-                        alt="Noubti"
+                        alt="{{ $appConfig?->nom_app ?? 'Noubti' }}"
                         class="w-12 h-12 object-contain"
                     >
 
@@ -77,7 +85,7 @@ if ($role === 'superadmin') {
                     <div class="w-11 h-11 rounded-xl bg-indigo-600 flex items-center justify-center shadow-sm">
 
                         <span class="text-white font-bold text-xl">
-                            N
+                            {{ strtoupper(substr($appConfig?->nom_app ?? 'N', 0, 1)) }}
                         </span>
 
                     </div>
@@ -88,7 +96,7 @@ if ($role === 'superadmin') {
                 <div>
 
                     <h1 class="font-bold text-xl leading-tight">
-                        Noubti
+                        {{ $appConfig?->nom_app ?? 'Noubti' }}
                     </h1>
 
                     <p class="text-xs text-indigo-600 font-medium tracking-wide">
@@ -237,17 +245,12 @@ if ($role === 'superadmin') {
                      CONFIGURATION
                 ================================================== --}}
 
-                {{-- 
-                    Pour le moment aucune route configuration
-                    n'existe dans routes/web.php.
-                    Donc on ne met pas de route() ici pour éviter
-                    une erreur Laravel.
-                --}}
-
                 <a
-                    href="#"
+                    href="{{ route('superadmin.configuration.index') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl
-                    text-gray-400 cursor-not-allowed"
+                    {{ request()->routeIs('superadmin.configuration.*')
+                        ? 'bg-indigo-50 text-indigo-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition' }}"
                 >
 
                     <span class="text-lg">

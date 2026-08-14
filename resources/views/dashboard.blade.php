@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noubti - Tableau de bord Responsable</title>
+    <title>{{ $appConfig?->nom_app ?? 'Noubti' }} - Tableau de bord Responsable</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 text-slate-900 antialiased">
@@ -12,7 +12,7 @@
             <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
                 <div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <div class="rounded-3xl bg-slate-900 px-4 py-2 text-base font-bold text-white shadow-sm">Noubti</div>
+                        <div class="rounded-3xl bg-slate-900 px-4 py-2 text-base font-bold text-white shadow-sm">{{ $appConfig?->nom_app ?? 'Noubti' }}</div>
                         <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-semibold text-slate-700">Service : {{ $service->nom_service ?? 'Aucun' }}</span>
                     </div>
                     <p class="mt-3 max-w-2xl text-sm text-slate-500">Tableau de bord guichet professionnel pour gérer les tickets et fluidifier l'attente.</p>

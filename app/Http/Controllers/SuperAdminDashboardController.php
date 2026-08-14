@@ -27,19 +27,19 @@ class SuperAdminDashboardController extends Controller
             })->count(),
 
             'todayReservations' => Reservation::whereDate(
-                'date_reservation',
+                'created_at',
                 today()
             )->count(),
 
-            'waitingCount' => Reservation::where('statut', 'En attente')->count(),
+            'waitingCount' => Reservation::where('statut', 'en attente')->count(),
 
-            'processingCount' => Reservation::where('statut', 'En cours')->count(),
+            'processingCount' => Reservation::where('statut', 'en cours')->count(),
 
-            'finishedCount' => Reservation::where('statut', 'Terminé')->count(),
+            'finishedCount' => Reservation::where('statut', 'termine')->count(),
 
-            'cancelledCount' => Reservation::where('statut', 'Annulé')->count(),
+            'cancelledCount' => Reservation::where('statut', 'annule')->count(),
 
-            'latestReservations' => Reservation::latest('id_reservation')
+            'latestReservations' => Reservation::latest('id')
                 ->take(10)
                 ->get(),
 

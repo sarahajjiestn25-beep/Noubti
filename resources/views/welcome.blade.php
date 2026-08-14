@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Noubti — Connexion Guichet</title>
+    <title>{{ $appConfig?->nom_app ?? 'Noubti' }} — Connexion Guichet</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex items-center justify-center p-4">
@@ -15,7 +15,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c.93 0 1.83-.11 2.71-.32a6 6 0 01-3.71-5.68V5a6 6 0 1112 0v.01M3 20h18a2 2 0 002-2V9a2 2 0 00-2-2H3a2 2 0 00-2 2v9a2 2 0 002 2z" />
                     </svg>
                 </div>
-                <h1 class="text-3xl font-extrabold tracking-tight">Noubti</h1>
+                <h1 class="text-3xl font-extrabold tracking-tight">{{ $appConfig?->nom_app ?? 'Noubti' }}</h1>
                 <p class="mt-2 text-indigo-100 text-sm">Système de gestion des files d'attente</p>
             </div>
 
@@ -48,7 +48,7 @@
             </div>
 
             <div class="px-8 py-4 bg-slate-50 border-t border-slate-200 text-center">
-                <p class="text-xs text-slate-500">© {{ date('Y') }} Noubti. Tous droits réservés.</p>
+                <p class="text-xs text-slate-500">© {{ date('Y') }} {{ $appConfig?->nom_app ?? 'Noubti' }}. Tous droits réservés.</p>
             </div>
         </div>
     </div>

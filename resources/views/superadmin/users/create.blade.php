@@ -23,7 +23,7 @@
 <div class="w-20 h-20 rounded-3xl bg-white flex items-center justify-center shadow">
 
 <img
-src="{{ asset('images/logo.png') }}"
+src="{{ $appConfig?->logo ? asset('storage/' . $appConfig->logo) : asset('images/logo.png') }}"
 class="w-14">
 
 </div>
@@ -38,7 +38,7 @@ Nouvel utilisateur
 
 <p class="mt-2 text-blue-100">
 
-Créer un nouveau compte pour la plateforme Noubti
+Créer un nouveau compte pour la plateforme {{ $appConfig?->nom_app ?? 'Noubti' }}
 
 </p>
 

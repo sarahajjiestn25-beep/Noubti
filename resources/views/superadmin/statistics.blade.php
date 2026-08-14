@@ -17,7 +17,7 @@
 
                 <div class="flex items-center gap-5">
 
-                    <img src="{{ asset('images/logo.png') }}"
+                    <img src="{{ $appConfig?->logo ? asset('storage/' . $appConfig->logo) : asset('images/logo.png') }}"
                          class="w-16 h-16 object-contain">
 
                     <div>
@@ -30,7 +30,7 @@
 
                         <p class="text-slate-500 mt-1">
 
-                            Analyse de la plateforme Noubti
+                            Analyse de la plateforme {{ $appConfig?->nom_app ?? 'Noubti' }}
 
                         </p>
 

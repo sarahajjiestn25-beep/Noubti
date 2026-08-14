@@ -8,7 +8,7 @@
             </h1>
 
             <p class="text-gray-500 mt-1">
-                Gérez les services disponibles dans Noubti.
+                Gérez les services disponibles dans {{ $appConfig?->nom_app ?? 'Noubti' }}.
             </p>
         </div>
 

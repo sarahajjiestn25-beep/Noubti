@@ -97,7 +97,7 @@
         {{-- =========================================================
              QUICK ACTIONS
         ========================================================== --}}
-        <div class="grid grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
+        <div class="grid grid-cols-2 lg:grid-cols-6 gap-6 mb-10">
 
             {{-- SERVICES --}}
             <a
@@ -187,6 +187,37 @@
 
                 <p class="text-slate-500 mt-2 text-sm">
                     Rapports détaillés
+                </p>
+
+            </a>
+
+
+            {{-- CONFIGURATION --}}
+            <a
+                href="{{ route('superadmin.configuration.index') }}"
+                class="group bg-white rounded-3xl p-6
+                       border border-slate-200
+                       hover:border-slate-500
+                       hover:shadow-xl
+                       transition duration-300">
+
+                <div class="w-16 h-16 rounded-2xl
+                            bg-slate-100
+                            flex items-center justify-center
+                            text-3xl mb-5
+                            group-hover:scale-110
+                            transition">
+
+                    ⚙️
+
+                </div>
+
+                <h2 class="font-bold text-slate-800 text-lg">
+                    Configuration
+                </h2>
+
+                <p class="text-slate-500 mt-2 text-sm">
+                    Paramètres de la plateforme
                 </p>
 
             </a>

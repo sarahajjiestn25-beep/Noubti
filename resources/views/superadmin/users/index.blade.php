@@ -19,7 +19,7 @@
             <div class="w-20 h-20 rounded-3xl bg-blue-50 flex items-center justify-center">
 
                 <img
-                    src="{{ asset('images/logo.png') }}"
+                    src="{{ $appConfig?->logo ? asset('storage/' . $appConfig->logo) : asset('images/logo.png') }}"
                     class="w-14">
 
             </div>
@@ -34,7 +34,7 @@
 
                 <p class="text-slate-500 mt-2">
 
-                    Gestion des comptes de la plateforme Noubtio {{ $appConfig->nom_app }}
+                    Gestion des comptes de la plateforme {{ $appConfig?->nom_app ?? 'Noubti' }}
 
                 </p>
 

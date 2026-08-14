@@ -6,6 +6,8 @@
     $logoUrl = $config?->logo
         ? asset('storage/' . $config->logo)
         : asset('images/logo.png');
+
+    $imgClass = $attributes->get('class', 'object-contain');
 @endphp
 
 <a href="{{ url('/') }}" class="inline-flex items-center gap-3">
@@ -13,9 +15,7 @@
     <img
         src="{{ $logoUrl }}"
         alt="{{ $appName }}"
-        {{ $attributes->merge([
-            'class' => 'object-contain'
-        ]) }}
+        class="{{ $imgClass }}"
     >
 
     @if($showName ?? true)

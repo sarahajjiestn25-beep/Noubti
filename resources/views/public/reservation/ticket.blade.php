@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket #{{ $reservation->numero }} — Noubti</title>
+    <title>Ticket #{{ $reservation->numero }} — {{ $appConfig?->nom_app ?? 'Noubti' }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -57,14 +57,14 @@
             <div class="flex items-center gap-3.5 min-w-0">
                 <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#2563EB] to-[#1D4ED8] p-0.5 shadow-md shadow-blue-500/20 flex items-center justify-center shrink-0 transition-transform duration-200 hover:scale-[1.03]">
                     <img 
-                        src="{{ asset('images/logo.png') }}" 
-                        alt="Noubti Logo" 
+                        src="{{ $appConfig?->logo ? asset('storage/' . $appConfig->logo) : asset('images/logo.png') }}" 
+                        alt="{{ $appConfig?->nom_app ?? 'Noubti' }} Logo" 
                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=N&background=2563eb&color=ffffff';"
                         class="w-full h-full object-cover rounded-[13px] bg-white"
                     >
                 </div>
                 <div class="min-w-0">
-                    <span class="text-base font-extrabold text-slate-900 tracking-tight block leading-none">Noubti</span>
+                    <span class="text-base font-extrabold text-slate-900 tracking-tight block leading-none">{{ $appConfig?->nom_app ?? 'Noubti' }}</span>
                     <p class="text-xs font-semibold text-slate-500 truncate mt-1">
                         {{ $service->nom_service ?? $reservation->service->nom_service ?? 'Service Client' }}
                     </p>
@@ -220,14 +220,14 @@
         <!-- Clean Footer -->
         <footer class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-1.5 text-xs text-slate-400 font-medium">
             <div class="flex items-center gap-2">
-                <span class="font-extrabold text-slate-800">Noubti</span>
+                <span class="font-extrabold text-slate-800">{{ $appConfig?->nom_app ?? 'Noubti' }}</span>
                 <span class="text-slate-300">•</span>
                 <span class="font-mono-num text-slate-500">Réf: #{{ $reservation->id ?? $reservation->numero }}</span>
             </div>
             <div class="flex items-center gap-2 text-[11px] text-slate-400">
                 <span>{{ \Carbon\Carbon::parse($reservation->heure_reservation)->format('d/m/Y H:i') }}</span>
                 <span class="text-slate-300">•</span>
-                <span>&copy; {{ date('Y') }} Noubti Inc.</span>
+                <span>&copy; {{ date('Y') }} {{ $appConfig?->nom_app ?? 'Noubti' }} Inc.</span>
             </div>
         </footer>
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Noubti - Réservation</title>
+    <title>{{ $appConfig?->nom_app ?? 'Noubti' }} - Réservation</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -17,7 +17,7 @@
     <!-- LEFT -->
     <div class="hidden md:flex flex-col justify-center bg-blue-700 text-white p-14">
 
-        <img src="{{ asset('logo.png') }}"
+        <img src="{{ $appConfig?->logo ? asset('storage/' . $appConfig->logo) : asset('images/logo.png') }}"
              class="w-28 mb-8 object-contain">
 
         <h1 class="text-4xl font-bold leading-tight mb-6">
@@ -98,7 +98,7 @@
         </form>
 
         <div class="text-center mt-8 text-slate-400 text-sm">
-            Noubti © 2026
+            {{ $appConfig?->nom_app ?? 'Noubti' }} © {{ date('Y') }}
         </div>
 
     </div>

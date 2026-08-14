@@ -27,7 +27,7 @@
         </div>
 
         <div class="mt-4">
-            <h1 class="text-xl font-semibold text-gray-900">Créer un compte SuperAdmin Noubti</h1>
+            <h1 class="text-xl font-semibold text-gray-900">Créer un compte SuperAdmin {{ $appConfig?->nom_app ?? 'Noubti' }}</h1>
         </div>
 
         <div class="flex items-center justify-end mt-4">

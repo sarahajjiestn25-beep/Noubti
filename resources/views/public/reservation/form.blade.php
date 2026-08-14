@@ -9,12 +9,12 @@
     <div class="max-w-6xl mx-auto text-center pt-16">
 
         <img
-            src="{{ asset('images/logo.png') }}"
+            src="{{ $appConfig?->logo ? asset('storage/' . $appConfig->logo) : asset('images/logo.png') }}"
             class="w-24 h-24 mx-auto rounded-full bg-white p-3 shadow-xl"
             alt="logo">
 
         <h1 class="text-6xl font-bold text-white mt-5">
-            Noubti
+            {{ $appConfig?->nom_app ?? 'Noubti' }}
         </h1>
 
         <p class="text-blue-100 text-xl mt-3">
@@ -226,7 +226,7 @@ class="btn-primary text-lg">
 
 <div class="text-center text-slate-500 mt-10 mb-10">
 
-© {{ date('Y') }} Noubti — Tous droits réservés.
+© {{ date('Y') }} {{ $appConfig?->nom_app ?? 'Noubti' }} — Tous droits réservés.
 
 </div>
 
